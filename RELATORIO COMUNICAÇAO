@@ -1,0 +1,74 @@
+Relatório Detalhado: Estabelecimento de Conexão Serial Windows - Linux via Cabo Null-Modem (VT100)
+
+Objetivo: Estabelecer comunicação serial bidirecional entre um computador com sistema operacional Windows e um computador com sistema operacional Linux, utilizando um cabo null-modem DB9 construído por soldagem e emuladores de terminal configurados para emulação VT100 (Tera Term no Windows e screen no Linux).
+
+Materiais:
+
+Dois computadores com portas seriais DB9 machos.
+Dois conectores DB9 fêmeas.
+Cabo com pelo menos 9 fios.
+Ferro de solda e estanho.
+Multímetro (para teste de continuidade).
+Material isolante (fita isolante ou tubos termo-retráteis).
+Software: Tera Term (instalado no Windows), screen (instalado no Linux).
+Procedimento:
+
+Fase 1: Construção do Cabo Null-Modem DB9 (Fêmea para Fêmea)
+
+Identificação dos Pinos: Os pinos dos conectores DB9 fêmeas foram cuidadosamente identificados e numerados.
+
+Soldagem das Conexões: Os fios do cabo foram soldados aos pinos dos conectores DB9 fêmeas seguindo a configuração null-modem padrão com suporte a handshaking:
+
+Pin (Conector 1 - Lado Windows - DB9 Fêmea)	Sinal	Pin (Conector 2 - Lado Linux - DB9 Fêmea)	Sinal	Função
+2	RxD	                                 3	TxD	Receber Dados (do outro computador)
+3	TxD	                                 2	RxD	Transmitir Dados (para o outro computador)
+5	GND	                                 5	GND	Terra (Referência de Voltagem)
+7	RTS	                                 8	CTS	Solicitação para Enviar
+8	CTS	                                 7	RTS	Pronto para Receber
+1	DCD	                                 1	DCD	Detecção de Portadora
+4	DTR	                                 6	DSR	Terminal de Dados Pronto
+6	DSR	                                 4	DTR	Conjunto de Dados Pronto
+9	RI	                                 9	RI	Indicador de Chamada
+
+Cada fio foi soldado de forma segura ao pino correspondente, garantindo uma boa conexão elétrica.
+
+Isolamento: Após a soldagem de cada pino, as conexões foram isoladas utilizando tubos termo-retráteis para evitar curtos-circuitos.
+
+Teste de Continuidade: Com o multímetro, foi verificada a continuidade entre os pinos correspondentes em ambas as extremidades do cabo, confirmando a correta interconexão e a ausência de curtos entre pinos adjacentes.
+
+
+Fase 2: Conexão Física e Identificação das Portas Seriais
+
+Conexão do Cabo: O cabo null-modem soldado foi conectado à porta serial DB9 macho do computador Windows e à porta serial DB9 macho do computador Linux.
+
+Identificação da Porta Windows: No Gerenciador de Dispositivos do Windows, a porta serial utilizada foi identificada como COM1.
+
+Identificação da Porta Linux: No terminal Linux, o comando ls /dev/ttyS* foi utilizado, e a porta serial correspondente foi identificada como /dev/ttyS0.
+
+
+Fase 3: Configuração dos Emuladores de Terminal
+
+Configuração do Tera Term (Windows):
+
+O Tera Term foi iniciado.
+Na janela "New Connection", a opção "Serial" foi selecionada e a porta COM1 foi especificada.
+As configurações da porta serial foram ajustadas em "Setup" -> "Serial Port..." para:
+Baud Rate: 115200 bps
+Data Bits: 8
+Parity: None
+Stop Bits: 1
+Flow Control: Hardware
+A emulação de terminal foi verificada em "Setup" -> "Terminal..." e confirmada como VT100.
+
+Configuração do screen (Linux):
+
+No terminal Linux, o comando screen /dev/ttyS0 115200,n81 foi executado. Isso iniciou uma sessão screen conectada à porta serial /dev/ttyS0 com a taxa de transmissão de 115200 bps, sem paridade, 8 bits de dados e 1 bit de parada. O controle de fluxo de hardware (RTS/CTS) é geralmente detectado automaticamente pelo screen quando suportado pela porta serial.
+
+Fase 4: Teste da Conexão Serial
+
+Comunicação Bidirecional: trem exibido na janela do Tera Term no Windows foi imediatamente exibido na janela do screen no Linux. Similarmente, trem exibido no terminal do Linux (na sessão screen) foi exibido na janela do Tera Term no Windows, confirmando a comunicação bidirecional.
+
+
+Conclusão:
+
+A conexão serial entre o computador Windows e o computador Linux foi estabelecida com sucesso através do cabo null-modem DB9 construído por soldagem e utilizando os emuladores de terminal Tera Term (no Windows) e screen (no Linux), ambos configurados para comunicação serial com parâmetros correspondentes e emulação VT100. A comunicação bidirecional de texto foi verificada, indicando que a conexão física e a configuração do software estão corretas.
