@@ -1,4 +1,4 @@
-Relatório: Conexão Serial Windows-Linux com Cabo Null-Modem VT100 (Trabalho em Dupla)
+iRelatório: Conexão Serial Windows-Linux com Cabo Null-Modem VT100 (Trabalho em Dupla)
 
 Qual era a nossa ideia?
 O objetivo aqui foi bem direto: fazer um PC com Windows e outro com Linux conversarem usando uma conexão serial. Para isso, montamos um cabo null-modem DB9 do zero e usamos o Tera Term no Windows e o screen no Linux, ambos configurados como terminais VT100.
@@ -64,4 +64,4 @@ Com tudo pronto dos dois lados, fizemos o teste final:
 Testando com um trem (literalmente): Para provar que a conexão estava fluindo com saída gráfica simples, rodamos o clássico comando sl-wd8 no Linux — aquele que mostra um trem com fumaça passando no terminal. A animação apareceu em tempo real na tela do Tera Term também, com todos os detalhes do trem . Foi uma forma bem visual de confirmar que os dados estavam indo de um sistema pro outro sem engasgar.
 
 Conclusão:
-A conexão serial entre o Windows e o Linux foi estabelecida com sucesso! O cabo null-modem que fizemos funcionou como esperado, e as configurações dos emuladores Tera Term e screen (incluindo velocidade, formato dos dados e emulação VT100) permitiram que os dois sistemas trocassem informações sem problemas. Ver o texto fluindo de um lado para o outro foi a prova de que tudo, desde a soldagem do cabo até os comandos de software, estava correto em nosso projeto.
+A conexão serial entre o Windows e o Linux foi feita com sucesso! O cabo null-modem que fizemos funcionou como esperado, e as configurações dos emuladores Tera Term e screen permitiram que os dois sistemas trocassem informações sem problemas. Ver o o trem passando de um lado para o outro foi a prova de que tudo, desde a soldagem do cabo até os comandos de software, estava correto em nosso projeto.
