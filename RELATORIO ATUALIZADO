@@ -1,0 +1,67 @@
+Relatório: Conexão Serial Windows-Linux com Cabo Null-Modem VT100 (Trabalho em Dupla)
+
+Qual era a nossa ideia?
+O objetivo aqui foi bem direto: fazer um PC com Windows e outro com Linux conversarem usando uma conexão serial. Para isso, montamos um cabo null-modem DB9 do zero e usamos o Tera Term no Windows e o screen no Linux, ambos configurados como terminais VT100.
+
+O que usamos:
+
+Dois computadores com portas seriais DB9 macho.
+Dois conectores DB9 fêmea.
+Cabo com, no mínimo, 9 fios.
+Ferro de solda e estanho.
+Software: Tera Term (Windows) e screen (Linux).
+Como foi feito:
+
+Parte 1: Montando o Cabo Null-Modem (DB9 Fêmea-Fêmea)
+
+Identificando os Pinos: A primeira coisa foi olharmos bem os conectores DB9 fêmea para não errar a numeração dos pinos.
+
+Soldagem: Soldamos os fios do cabo nos pinos dos conectores. A pinagem é a clássica de null-modem :
+
+| No PC Windows (Conector 1) | Sinal | No PC Linux (Conector 2) | Sinal | O que faz?                                   |
+| :------------------------- | :---- | :----------------------- | :---- | :-------------------------------------------- |
+| Pino 2                     | RxD   | Pino 3                   | TxD   | Um recebe dados, o outro envia                |
+| Pino 3                     | TxD   | Pino 2                   | RxD   | Um envia dados, o outro recebe                |
+| Pino 5                     | GND   | Pino 5                   | GND   | Terra (a referência pra tudo)                 |
+| Pino 7                     | RTS   | Pino 8                   | CTS   | Um pede pra enviar, o outro diz que tá pronto |
+| Pino 8                     | CTS   | Pino 7                   | RTS   | Um diz que tá pronto, o outro pede pra enviar |
+| Pino 1                     | DCD   | Pino 1                   | DCD   | Detecta se tem sinal na linha                 |
+| Pino 4                     | DTR   | Pino 6                   | DSR   | Avisa que o terminal de dados tá pronto       |
+| Pino 6                     | DSR   | Pino 4                   | DTR   | Avisa que o modem (ou similar) tá pronto      |
+| Pino 9                     | RI    | Pino 9                   | RI    | Indica chamada (pouco usado em null-modem)    |
+
+Cada solda foi feita com atenção para garantir um bom contato elétrico.
+
+Parte 2: Conectando os Equipamentos e Achando as Portas
+
+Com o cabo pronto e checado:
+
+Plugando o Cabo: Conectamos uma ponta do cabo na porta serial DB9 do PC Windows e a outra na porta do PC Linux.
+Achando a Porta no Windows: No Gerenciador de Dispositivos do Windows, a porta serial apareceu como COM1.
+Achando a Porta no Linux: No terminal do Linux, usamos o comando ls /dev/ttyS*. A porta identificada foi a /dev/ttyS0.
+
+Parte 3: Configurando os Emuladores de Terminal
+
+Agora era hora de configurar os programas para fazerem a comunicação.
+
+No Windows (Tera Term):
+
+Abrimos o Tera Term.
+Na janela "New Connection", escolhemos "Serial" e indicamos a porta COM1.
+Fomos em "Setup" -> "Serial Port..."
+Em "Setup" -> "Terminal...", conferimos se a emulação estava como VT100.
+
+No Linux (screen):
+
+No terminal, executamos o comando:
+Bash
+screen /dev/ttyS0 115200,cs8,-parenb,-cstopb
+Esse comando inicia o screen na porta /dev/ttyS0, geralmente é detectado e usado automaticamente se a porta serial e o sistema o suportarem.
+
+Parte 4: Testando a Conexão
+Com tudo pronto dos dois lados, fizemos o teste final:
+
+Testando com um trem (literalmente): Para provar que a conexão estava fluindo com saída gráfica simples, rodamos o clássico comando sl no Linux — aquele que mostra um trem com fumaça passando no terminal. A animação apareceu em tempo real na tela do Tera Term também, com todos os detalhes do trem . Foi uma forma bem visual de confirmar que os dados estavam indo de um sistema pro outro sem engasgar.
+
+Conclusão:
+A conexão serial entre o Windows e o Linux foi estabelecida com sucesso! O cabo null-modem que fizemos funcionou como esperado, e as configurações dos emuladores Tera Term e screen (incluindo velocidade, formato dos dados e emulação VT100) permitiram que os dois sistemas trocassem informações sem problemas. Ver o texto fluindo de um lado para o outro foi a prova de que tudo, desde a soldagem do cabo até os comandos de software, estava correto em nosso projeto.
